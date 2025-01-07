@@ -9,9 +9,19 @@
     "electron": "npm install && electron ."
   },
   "dependencies": {
+    "@mantine/carousel": "^7.15.3",
+    "@mantine/charts": "^7.15.3",
+    "@mantine/core": "^7.15.3",
+    "@mantine/dates": "^7.15.3",
+    "@mantine/form": "^7.15.3",
+    "@mantine/hooks": "^7.15.3",
+    "@mantine/modals": "^7.15.3",
     "@rollup/rollup-win32-x64-msvc": "^4.29.1",
+    "dayjs": "^1.11.13",
+    "embla-carousel-react": "^7.1.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "recharts": "^2.15.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
@@ -25,6 +35,9 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
+    "postcss": "^8.4.49",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
     "rollup": "^4.29.1",
     "vite": "^6.0.5"
   }
