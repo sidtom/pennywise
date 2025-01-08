@@ -1,0 +1,52 @@
+/* Center the parent container */
+.calendar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+
+  .calendar-container .mantine-Calendar-root {
+    width: 90%;
+    height: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+  }
+  
+  .mantine-Calendar-levelsGroup > * {
+    /* Add your styles here */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+  }
+
+  .calendar-container .mantine-Calendar-controls {
+    width: 60px; 
+    height: 60px;
+  }
+  
+
+  .calendar-container .mantine-Calendar-yearsListControl,
+  .calendar-container .mantine-Calendar-monthsListControl {
+    height: 150px;
+    width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+  }
+  
+
+  .calendar-container .mantine-Calendar-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    width: 120px;
+  } 
+  
+  button{
+    height: 120px !important;
+    width: 120px !important;
+  }
