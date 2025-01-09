@@ -20,7 +20,8 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    border: 2px solid black;
+    border: 2px solid rgb(235, 201, 9);
+    border-radius:  10%;
   }
 
   .calendar-container .mantine-Calendar-controls {
@@ -49,4 +50,9 @@
   button{
     height: 120px !important;
     width: 120px !important;
+  }
+
+  .mantine-Calendar-calendarHeader > div:nth-child(2) {
+    /* Your styles here */
+    margin-top: 15%;
   }
