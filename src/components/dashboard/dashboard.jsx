@@ -1,4 +1,4 @@
-import DashboardCalendar from "./calendar/calendar"
+import DashboardCalendar from "../calendar/calendar"
 export default function Dashboard() {
   return (
    <>
