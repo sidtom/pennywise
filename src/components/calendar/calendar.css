@@ -56,3 +56,7 @@
     /* Your styles here */
     margin-top: 15%;
   }
+
+  .mantine-Calendar-monthCell > * {
+flex-direction: column;
+  }

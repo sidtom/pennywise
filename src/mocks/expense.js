@@ -1,83 +1,82 @@
-export const expenses = [
-    {
-      Day: "01",
-      Month: "01",
-      Year: "2023",
-      Amount: "100.50",
-      Type: "Debit",
-      Category: "Groceries",
-    },
-    {
-      Day: "03",
-      Month: "01",
-      Year: "2023",
-      Amount: "50.00",
-      Type: "Credit",
-      Category: "Refund",
-    },
-    {
-      Day: "15",
-      Month: "02",
-      Year: "2023",
-      Amount: "200.75",
-      Type: "Debit",
-      Category: "Rent",
-    },
-    {
-      Day: "20",
-      Month: "02",
-      Year: "2023",
-      Amount: "25.00",
-      Type: "Debit",
-      Category: "Entertainment",
-    },
-    {
-      Day: "01",
-      Month: "03",
-      Year: "2023",
-      Amount: "15.00",
-      Type: "Debit",
-      Category: "Transportation",
-    },
-    {
-      Day: "05",
-      Month: "03",
-      Year: "2023",
-      Amount: "300.00",
-      Type: "Debit",
-      Category: "Health",
-    },
-    {
-      Day: "10",
-      Month: "03",
-      Year: "2023",
-      Amount: "40.00",
-      Type: "Debit",
-      Category: "Utilities",
-    },
-    {
-      Day: "18",
-      Month: "04",
-      Year: "2023",
-      Amount: "120.00",
-      Type: "Debit",
-      Category: "Groceries",
-    },
-    {
-      Day: "25",
-      Month: "04",
-      Year: "2023",
-      Amount: "60.00",
-      Type: "Debit",
-      Category: "Dining",
-    },
-    {
-      Day: "30",
-      Month: "04",
-      Year: "2023",
-      Amount: "75.00",
-      Type: "Debit",
-      Category: "Shopping",
-    },
-  ];
-  
+export const expenses =[
+  {
+    "date": "1/1/2025",
+    "transactions": [
+      { "category": "Petrol", "amount": 300, "transactionType": "Gpay" },
+      { "category": "Mug", "amount": 150, "transactionType": "Gpay" },
+      { "category": "Misc", "amount": 20, "transactionType": "Cash" }
+    ],
+    "totalAmount": 470
+  },
+  {
+    "date": "2/1/2025",
+    "transactions": [
+      { "category": "Misc", "amount": 20, "transactionType": "Gpay" }
+    ],
+    "totalAmount": 20
+  },
+  {
+    "date": "3/1/2025",
+    "transactions": [
+      { "category": "Petrol", "amount": 300, "transactionType": "Gpay" },
+      { "category": "Misc", "amount": 20, "transactionType": "Gpay" }
+    ],
+    "totalAmount": 320
+  },
+  {
+    "date": "4/1/2025",
+    "transactions": [
+      { "category": "Drinks", "amount": 280, "transactionType": "Gpay" },
+      { "category": "Misc", "amount": 64, "transactionType": "Gpay" },
+      { "category": "Movie", "amount": 282, "transactionType": "Card - SBI" }
+    ],
+    "totalAmount": 626
+  },
+  {
+    "date": "5/1/2025",
+    "transactions": [
+      { "category": "Movie - Food", "amount": 900, "transactionType": "Card - ICICI" },
+      { "category": "Julian", "amount": -300, "transactionType": "Gpay" }
+    ],
+    "totalAmount": 600
+  },
+  {
+    "date": "6/1/2025",
+    "transactions": [
+      { "category": "Groceries", "amount": 120, "transactionType": "Gpay" },
+      { "category": "Snacks", "amount": 45, "transactionType": "Cash" }
+    ],
+    "totalAmount": 165
+  },
+  {
+    "date": "7/1/2025",
+    "transactions": [
+      { "category": "Petrol", "amount": 250, "transactionType": "Card - HDFC" }
+    ],
+    "totalAmount": 250
+  },
+  {
+    "date": "8/1/2025",
+    "transactions": [
+      { "category": "Restaurant", "amount": 600, "transactionType": "Gpay" },
+      { "category": "Misc", "amount": 50, "transactionType": "Cash" }
+    ],
+    "totalAmount": 650
+  },
+  {
+    "date": "9/1/2025",
+    "transactions": [
+      { "category": "Pet Supplies", "amount": 200, "transactionType": "Gpay" },
+      { "category": "Books", "amount": 150, "transactionType": "Card - ICICI" }
+    ],
+    "totalAmount": 350
+  },
+  {
+    "date": "10/1/2025",
+    "transactions": [
+      { "category": "Rent", "amount": 1500, "transactionType": "Bank Transfer" },
+      { "category": "Utilities", "amount": 300, "transactionType": "Gpay" }
+    ],
+    "totalAmount": 1800
+  }
+]

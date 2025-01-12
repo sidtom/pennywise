@@ -6,7 +6,7 @@ import "./calendar.css";
 export default function DashboardCalendar() {
   return (
     <div className="calendar-container">
-      <Calendar renderDay={((date) => <Day day={date.getDate()}/>)}/>
+      <Calendar renderDay={((date) => <Day date={date}/>)}/>
     </div>
   );
 }
