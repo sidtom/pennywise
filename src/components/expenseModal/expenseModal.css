@@ -1,0 +1,45 @@
+   .header-cell {
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .table-body {
+    background-color: #fff;
+  }
+  
+  .table-row:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .table-cell {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .text-input, .number-input {
+    width: 100%;
+  }
+  
+  .actions-cell {
+    text-align: center;
+  }
+  
+  .delete-button {
+    background-color: #ff4d4f;
+    color: white;
+  }
+  
+  .add-button, .save-button {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .add-button:hover, .save-button:hover {
+    background-color: #45a049;
+  }
+  
+  .delete-button:hover {
+    background-color: #d11a2a;
+  }
+  
