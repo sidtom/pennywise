@@ -2,7 +2,7 @@ import { Modal, Button, TextInput, NumberInput, Table } from "@mantine/core";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import "./ExpenseModal.css";
-
+import { useMediaQuery } from '@mantine/hooks';
 export default function ExpenseModal({ opened, onClose, date, expenses, onSave }) {
   const [currentExpenses, setCurrentExpenses] = useState([]);
   const [newExpense, setNewExpense] = useState({
@@ -10,7 +10,7 @@ export default function ExpenseModal({ opened, onClose, date, expenses, onSave }
     amount: "",
     transactionType: "",
   });
-
+  const isMobile = useMediaQuery('(max-width: 50em)');
   // Initialize the current expenses for the selected date
   useState(() => {
     const expenseData = expenses.find((e) => e.date === date) || { transactions: [] };
@@ -36,11 +36,13 @@ export default function ExpenseModal({ opened, onClose, date, expenses, onSave }
 
   return (
     <Modal
-    size="xl"
+    size={isMobile?"xs":"xl"}
     opened={opened}
     onClose={onClose}
     title={`Expenses for ${date}`}
     className="modal-container"
+    centered
+    fullScreen={isMobile}
   >
     <Table className="expenses-table">
       <thead className="table-header">

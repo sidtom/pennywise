@@ -26,7 +26,7 @@ const drawerWidth = 240;
 
 function Dashboard() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
+  const isSmallScreen = useMediaQuery("(max-width:50em)");
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
