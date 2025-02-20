@@ -71,7 +71,7 @@ export default function AnalyticsDashboard() {
           curveType="linear"
         />
       </div>
-      <div className="box"><DonutChart data={donutData}/></div>
+      <div className="box"><DonutChart style={{marginLeft:"35%",marginTop:"10%"}} data={donutData} /></div>
       <div className="box">Box3</div>
       <div className="box">Box4</div>
     </div>
