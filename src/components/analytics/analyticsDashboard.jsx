@@ -1,5 +1,5 @@
 import "./analyticsDashboard.css";
-import { AreaChart, BarChart, DonutChart } from "@mantine/charts";
+import { AreaChart, BarChart, DonutChart, PieChart } from "@mantine/charts";
 import { expenses } from "../../mocks/expense";
 export default function AnalyticsDashboard() {
   const categories = [
@@ -20,8 +20,8 @@ export default function AnalyticsDashboard() {
     return dataPoint;
   });
 
-  const barData = expenses.map(expense => ({
-    day: expense.date,  // Keeping the date as 'month' for consistency with the given format
+  const barData = expenses.map((expense) => ({
+    day: expense.date, // Keeping the date as 'month' for consistency with the given format
     "Total Spending": expense.totalAmount,
   }));
   const categoryColors = {
@@ -62,6 +62,34 @@ export default function AnalyticsDashboard() {
     color: categoryColors[category] || "gray.6", // Default color if not found
   }));
 
+  const transformExpensesByType = (expenses) => {
+    const colors = {
+      Gpay: "indigo.6",
+      Card: "yellow.6",
+      Received: "teal.6",
+      Other: "gray.6",
+    };
+
+    const groupedExpenses = {};
+
+    // Iterate through each day's transactions
+    expenses.forEach((expense) => {
+      expense.transactions.forEach(({ transactionType, amount }) => {
+        if (!groupedExpenses[transactionType]) {
+          groupedExpenses[transactionType] = 0;
+        }
+        groupedExpenses[transactionType] += amount;
+      });
+    });
+
+    // Convert to array format for graph
+    return Object.keys(groupedExpenses).map((key) => ({
+      name: key,
+      value: groupedExpenses[key],
+      color: colors[key] || "gray.6", // Default color if not listed
+    }));
+  };
+  const pieData = transformExpensesByType(expenses);
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
       <div className="box">
@@ -84,13 +112,19 @@ export default function AnalyticsDashboard() {
           h={300}
           data={barData}
           dataKey="day"
-          series={[
-            { name: "Total Spending", color: "violet.6" },
-          ]}
+          series={[{ name: "Total Spending", color: "violet.6" }]}
           tickLine="y"
         />
       </div>
-      <div className="box">Box4</div>
+      <div className="box">
+        <PieChart
+          style={{ marginLeft: "35%", marginTop: "10%" }}
+          data={pieData}
+          withTooltip 
+          labelsType="value"
+          withLabels
+        />
+      </div>
     </div>
   );
 }

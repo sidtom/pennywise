@@ -79,7 +79,7 @@ export const expenses = [
     transactions: [
       { category: "Swimming", amount: 150, transactionType: "Gpay" },
       { category: "Food", amount: 600, transactionType: "Card" },
-      { category: "Alcohol", amount: 2100, transactionType: "Gpay and Card (600)" },
+      { category: "Alcohol", amount: 2100, transactionType: "Card" },
       { category: "Petrol", amount: 200, transactionType: "Gpay" },
       { category: "Lekshmy", amount: 800, transactionType: "Gpay" },
       { category: "Misc", amount: 130, transactionType: "Gpay" },
