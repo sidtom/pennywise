@@ -1,8 +1,20 @@
 import "./analyticsDashboard.css";
+import { useEffect, useState } from "react";
 import { AreaChart, BarChart, DonutChart, PieChart } from "@mantine/charts";
-import { expenses } from "../../mocks/expense";
 import { uniqueCategories, seriesMatching , categoryColors, transformExpensesByType } from "../../utils/analytics";
+
 export default function AnalyticsDashboard() {
+ const [expenses, setExpenses] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:5000/expenses')
+      .then(response => response.json())
+      .then(data => {
+        setExpenses(data);
+      })
+      .catch(error => {
+        console.error('Error fetching expenses:', error);
+      });
+  }, [])
   const categories = uniqueCategories(expenses);
   const series = seriesMatching(categories);
 

@@ -1,10 +1,21 @@
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { expenses } from "../../mocks/expense";
 import { formatDate, getTotalAmountSpent } from "../../utils/dayrenderer";
 import { useDisclosure } from "@mantine/hooks";
 import ExpenseModal from "../expenseModal/expenseModal";
 
 export default function Day(props) {
+  const [expenses, setExpenses] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:5000/expenses")
+      .then((response) => response.json())
+      .then((data) => {
+        setExpenses(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching expenses:", error);
+      });
+  }, []);
   const [opened, { open, close }] = useDisclosure(false);
   const formattedDate = formatDate(props.date);
   const totalAmountSpent = getTotalAmountSpent(expenses, formattedDate);
@@ -52,5 +63,5 @@ export default function Day(props) {
 }
 
 Day.propTypes = {
-  date: PropTypes
-}
+  date: PropTypes,
+};
