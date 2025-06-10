@@ -1,4 +1,12 @@
-import { Modal, Button, TextInput, NumberInput, Table } from "@mantine/core";
+import {
+  Modal,
+  Button,
+  TextInput,
+  NumberInput,
+  Table,
+  Radio,
+  Group,
+} from "@mantine/core";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import "./ExpenseModal.css";
@@ -14,7 +22,7 @@ export default function ExpenseModal({
   const [newExpense, setNewExpense] = useState({
     category: "",
     amount: "",
-    transactionType: "",
+    transactionType: "Card",
   });
   const isMobile = useMediaQuery("(max-width: 50em)");
   // Initialize the current expenses for the selected date
@@ -172,17 +180,20 @@ export default function ExpenseModal({
               />
             </td>
             <td className="table-cell">
-              <TextInput
-                className="text-input"
-                placeholder="Transaction Type"
+              <Radio.Group
                 value={newExpense.transactionType}
-                onChange={(e) =>
+                onChange={(value) =>
                   setNewExpense((prev) => ({
                     ...prev,
-                    transactionType: e.target.value,
+                    transactionType: value,
                   }))
                 }
-              />
+              >
+                <Group mt="xs">
+                  <Radio value="Card" label="Card" />
+                  <Radio value="Gpay" label="Gpay" />
+                </Group>
+              </Radio.Group>
             </td>
             <td className="table-cell actions-cell">
               <Button className="add-button" onClick={handleAddRow}>
@@ -208,7 +219,7 @@ ExpenseModal.propTypes = {
       transactions: PropTypes.arrayOf(
         PropTypes.shape({
           category: PropTypes.string.isRequired,
-          amount: PropTypes.string.isRequired,
+          amount: PropTypes.number.isRequired,
           transactionType: PropTypes.string.isRequired,
         })
       ).isRequired,
