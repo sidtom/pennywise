@@ -7,7 +7,7 @@ import {
   Radio,
   Group,
 } from "@mantine/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./ExpenseModal.css";
 import { useMediaQuery } from "@mantine/hooks";
@@ -26,12 +26,11 @@ export default function ExpenseModal({
   });
   const isMobile = useMediaQuery("(max-width: 50em)");
   // Initialize the current expenses for the selected date
-  useState(() => {
-    const expenseData = expenses.find((e) => e.date === date) || {
-      transactions: [],
-    };
-    setCurrentExpenses([...expenseData.transactions]);
-  }, [date]);
+  useEffect(() => {
+    const matchedExpenses = expenses.filter((e) => e.date === date);
+    const allTransactions = matchedExpenses.flatMap((e) => e.transactions);
+    setCurrentExpenses(allTransactions);
+  }, [date, expenses]);
 
   const handleDelete = (index) => {
     const updatedExpenses = [...currentExpenses];
@@ -44,19 +43,37 @@ export default function ExpenseModal({
     setNewExpense({ category: "", amount: "", transactionType: "" });
   };
 
-  const handleSave = async () => {
-    const totalAmount = currentExpenses.reduce(
-      (sum, item) => sum + Number(item.amount),
-      0
-    );
+const handleSave = async () => {
+  const totalAmount = currentExpenses.reduce((sum, tx) => sum + Number(tx.amount), 0);
 
-    const payload = {
-      date,
-      transactions: currentExpenses,
-      totalAmount,
-    };
+  // Separate transactions: those with _id (existing) vs new (no _id)
+  const existingTransactions = currentExpenses.filter(tx => tx._id);
+  const newTransactions = currentExpenses.filter(tx => !tx._id);
 
-    try {
+  try {
+    // 1. Update existing transactions
+    for (const tx of existingTransactions) {
+      const response = await fetch(`http://localhost:5000/expenses/${tx._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tx),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update transaction with ID ${tx._id}`);
+      }
+    }
+
+    // 2. Add new transactions
+    if (newTransactions.length > 0) {
+      const payload = {
+        date,
+        transactions: newTransactions,
+        totalAmount: totalAmount,
+      };
+
       const response = await fetch("http://localhost:5000/expenses", {
         method: "POST",
         headers: {
@@ -66,18 +83,22 @@ export default function ExpenseModal({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to save expense");
+        throw new Error("Failed to create new transactions");
       }
 
-      const savedExpense = await response.json();
-      console.log("Expense saved:", savedExpense);
-
-      onSave(date, currentExpenses, totalAmount); // If you still want to call this
-      onClose();
-    } catch (error) {
-      console.error("Error saving expense:", error);
+      const saved = await response.json();
+      console.log("New transactions saved:", saved);
     }
-  };
+
+    // Optional: update total or refresh UI
+    onSave(date, currentExpenses, totalAmount);
+    onClose();
+
+  } catch (error) {
+    console.error("Error during save:", error);
+  }
+};
+
 
   return (
     <Modal
