@@ -22,7 +22,7 @@ export default function ExpenseModal({
   const [newExpense, setNewExpense] = useState({
     category: "",
     amount: "",
-    transactionType: "Card",
+    transactionType: "Gpay",
   });
   const isMobile = useMediaQuery("(max-width: 50em)");
   // Initialize the current expenses for the selected date
@@ -40,65 +40,69 @@ export default function ExpenseModal({
 
   const handleAddRow = () => {
     setCurrentExpenses([...currentExpenses, { ...newExpense }]);
-    setNewExpense({ category: "", amount: "", transactionType: "" });
+    setNewExpense({ category: "", amount: "", transactionType: "Gpay" });
   };
 
-const handleSave = async () => {
-  const totalAmount = currentExpenses.reduce((sum, tx) => sum + Number(tx.amount), 0);
+  const handleSave = async () => {
+    const totalAmount = currentExpenses.reduce(
+      (sum, tx) => sum + Number(tx.amount),
+      0
+    );
 
-  // Separate transactions: those with _id (existing) vs new (no _id)
-  const existingTransactions = currentExpenses.filter(tx => tx._id);
-  const newTransactions = currentExpenses.filter(tx => !tx._id);
+    // Separate transactions: those with _id (existing) vs new (no _id)
+    const existingTransactions = currentExpenses.filter((tx) => tx._id);
+    const newTransactions = currentExpenses.filter((tx) => !tx._id);
 
-  try {
-    // 1. Update existing transactions
-    for (const tx of existingTransactions) {
-      const response = await fetch(`http://localhost:5000/expenses/${tx._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(tx),
-      });
+    try {
+      // 1. Update existing transactions
+      for (const tx of existingTransactions) {
+        const response = await fetch(
+          `http://localhost:5000/expenses/${tx._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tx),
+          }
+        );
 
-      if (!response.ok) {
-        throw new Error(`Failed to update transaction with ID ${tx._id}`);
-      }
-    }
-
-    // 2. Add new transactions
-    if (newTransactions.length > 0) {
-      const payload = {
-        date,
-        transactions: newTransactions,
-        totalAmount: totalAmount,
-      };
-
-      const response = await fetch("http://localhost:5000/expenses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create new transactions");
+        if (!response.ok) {
+          throw new Error(`Failed to update transaction with ID ${tx._id}`);
+        }
       }
 
-      const saved = await response.json();
-      console.log("New transactions saved:", saved);
+      // 2. Add new transactions
+      if (newTransactions.length > 0) {
+        const payload = {
+          date,
+          transactions: newTransactions,
+          totalAmount: totalAmount,
+        };
+
+        const response = await fetch("http://localhost:5000/expenses", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to create new transactions");
+        }
+
+        const saved = await response.json();
+        console.log("New transactions saved:", saved);
+      }
+
+      // Optional: update total or refresh UI
+      onSave(date, currentExpenses, totalAmount);
+      onClose();
+    } catch (error) {
+      console.error("Error during save:", error);
     }
-
-    // Optional: update total or refresh UI
-    onSave(date, currentExpenses, totalAmount);
-    onClose();
-
-  } catch (error) {
-    console.error("Error during save:", error);
-  }
-};
-
+  };
 
   return (
     <Modal
