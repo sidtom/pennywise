@@ -32,10 +32,20 @@ export default function ExpenseModal({
     setCurrentExpenses(allTransactions);
   }, [date, expenses]);
 
-  const handleDelete = (index) => {
-    const updatedExpenses = [...currentExpenses];
-    updatedExpenses.splice(index, 1);
-    setCurrentExpenses(updatedExpenses);
+  const handleDelete = async (index, expense) => {
+    if (expense._id) {
+      try {
+        await fetch(`http://localhost:5000/expenses/${expense._id}`, {
+          method: "DELETE",
+        });
+        const updatedExpenses = [...currentExpenses];
+        updatedExpenses.splice(index, 1);
+        setCurrentExpenses(updatedExpenses);
+      } catch (error) {
+        console.error("Error deleting expense:", error);
+        return;
+      }
+    }
   };
 
   const handleAddRow = () => {
@@ -173,7 +183,7 @@ export default function ExpenseModal({
                 <Button
                   className="delete-button"
                   color="red"
-                  onClick={() => handleDelete(index)}
+                  onClick={() => handleDelete(index, expense)}
                 >
                   Delete
                 </Button>
