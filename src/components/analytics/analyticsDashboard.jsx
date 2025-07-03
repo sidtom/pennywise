@@ -1,12 +1,22 @@
 import "./analyticsDashboard.css";
 import { useEffect, useState } from "react";
 import { AreaChart, BarChart, DonutChart, PieChart } from "@mantine/charts";
+import { MonthPickerInput } from '@mantine/dates';
 import { uniqueCategories, seriesMatching , categoryColors, transformExpensesByType } from "../../utils/analytics";
 
 export default function AnalyticsDashboard() {
  const [expenses, setExpenses] = useState([]);
+ const [selectedMonth, setSelectedMonth] = useState(null);
+  
   useEffect(() => {
-    fetch('http://localhost:5000/expenses')
+    let url = 'http://localhost:5000/expenses';
+    if (selectedMonth) {
+      const month = selectedMonth.getMonth() + 1;
+      const year = selectedMonth.getFullYear();
+      url += `?month=${month}&year=${year}`;
+    }
+    
+    fetch(url)
       .then(response => response.json())
       .then(data => {
         setExpenses(data);
@@ -14,7 +24,7 @@ export default function AnalyticsDashboard() {
       .catch(error => {
         console.error('Error fetching expenses:', error);
       });
-  }, [])
+  }, [selectedMonth])
   const categories = uniqueCategories(expenses);
   const series = seriesMatching(categories);
 
@@ -50,7 +60,17 @@ export default function AnalyticsDashboard() {
 
   const pieData = transformExpensesByType(expenses);
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+    <div>
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <MonthPickerInput
+          label="Select Month"
+          placeholder="Pick month"
+          value={selectedMonth}
+          onChange={setSelectedMonth}
+          style={{ maxWidth: "300px", margin: "0 auto" }}
+        />
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
       <div className="box">
         <AreaChart
           h={300}
@@ -84,6 +104,7 @@ export default function AnalyticsDashboard() {
           withLabels
         />
       </div>
+    </div>
     </div>
   );
 }
