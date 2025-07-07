@@ -27,6 +27,7 @@ const drawerWidth = 240;
 
 function Dashboard() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
   const isSmallScreen = useMediaQuery("(max-width:50em)");
   const [marginLeft, setMarginLeft] = useState(0);
   const location = useLocation(); // Use useLocation to get the current path
@@ -145,7 +146,7 @@ function Dashboard() {
       >
         <Toolbar />
         <Routes>
-          <Route path="/calendar" element={<DashboardCalendar />} />
+          <Route path="/calendar" element={<DashboardCalendar selectedMonth={selectedMonth} onMonthChange={setSelectedMonth} />} />
           <Route path="/analytics" element={<AnalyticsDashboard />} />
           <Route
             path="/settings"
