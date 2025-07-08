@@ -1,30 +1,20 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-export default function AnalyticsRow({ selectedMonth }) {
+export default function AnalyticsRow({ selectedMonth, expenses }) {
   const [totalSpend, setTotalSpend] = useState(0);
   const [averageSpend, setAverageSpend] = useState(0);
 
   useEffect(() => {
-    if (!selectedMonth) return;
+    if (!selectedMonth || !expenses) return;
 
-    const month = selectedMonth.getMonth() + 1;
-    const year = selectedMonth.getFullYear();
+    const total = expenses.reduce((sum, expense) => sum + expense.totalAmount, 0);
+    const daysWithExpenses = expenses.length;
+    const average = daysWithExpenses > 0 ? total / daysWithExpenses : 0;
     
-    fetch(`http://localhost:5000/expenses?month=${month}&year=${year}`)
-      .then(response => response.json())
-      .then(data => {
-        const total = data.reduce((sum, expense) => sum + expense.totalAmount, 0);
-        const daysWithExpenses = data.length;
-        const average = daysWithExpenses > 0 ? total / daysWithExpenses : 0;
-        
-        setTotalSpend(total);
-        setAverageSpend(average);
-      })
-      .catch(error => {
-        console.error('Error fetching expenses:', error);
-      });
-  }, [selectedMonth]);
+    setTotalSpend(total);
+    setAverageSpend(average);
+  }, [selectedMonth, expenses]);
 
   if (!selectedMonth) return null;
 
@@ -44,4 +34,5 @@ export default function AnalyticsRow({ selectedMonth }) {
 
 AnalyticsRow.propTypes = {
   selectedMonth: PropTypes.instanceOf(Date),
+  expenses: PropTypes.array.isRequired,
 };

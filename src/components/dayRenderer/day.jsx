@@ -4,21 +4,15 @@ import { formatDate, getTotalAmountSpent } from "../../utils/dayrenderer";
 import { useDisclosure } from "@mantine/hooks";
 import ExpenseModal from "../expenseModal/expenseModal";
 
-export default function Day(props) {
-  const [expenses, setExpenses] = useState([]);
+export default function Day({ date, expenses, onExpensesUpdate }) {
+  const [localExpenses, setLocalExpenses] = useState(expenses);
+
   useEffect(() => {
-    fetch("http://localhost:5000/expenses")
-      .then((response) => response.json())
-      .then((data) => {
-        setExpenses(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching expenses:", error);
-      });
-  }, []);
+    setLocalExpenses(expenses);
+  }, [expenses]);
   const [opened, { open, close }] = useDisclosure(false);
-  const formattedDate = formatDate(props.date);
-  const totalAmountSpent = getTotalAmountSpent(expenses, formattedDate);
+  const formattedDate = formatDate(date);
+  const totalAmountSpent = getTotalAmountSpent(localExpenses, formattedDate);
 
   const pillboxStyle = {
     display: "inline-block",
@@ -35,13 +29,17 @@ export default function Day(props) {
   };
 
   const handleSave = (date, transactions, totalAmount) => {
-    const existingIndex = expenses.findIndex((e) => e.date === date);
+    const updatedExpenses = [...localExpenses];
+    const existingIndex = updatedExpenses.findIndex((e) => e.date === date);
 
     if (existingIndex > -1) {
-      expenses[existingIndex] = { date, transactions, totalAmount };
+      updatedExpenses[existingIndex] = { date, transactions, totalAmount };
     } else {
-      expenses.push({ date, transactions, totalAmount });
+      updatedExpenses.push({ date, transactions, totalAmount });
     }
+    
+    setLocalExpenses(updatedExpenses);
+    onExpensesUpdate(updatedExpenses);
   };
 
   return (
@@ -50,12 +48,12 @@ export default function Day(props) {
         opened={opened}
         onClose={close}
         date={formattedDate}
-        expenses={expenses}
+        expenses={localExpenses}
         onSave={handleSave}
       />
 
       <div onClick={open}>
-        <div style={{ textAlign: "center" }}>{props.date.getDate()}</div>
+        <div style={{ textAlign: "center" }}>{date.getDate()}</div>
         <div style={pillboxStyle}>{totalAmountSpent}</div>
       </div>
     </>
@@ -63,5 +61,7 @@ export default function Day(props) {
 }
 
 Day.propTypes = {
-  date: PropTypes,
+  date: PropTypes.instanceOf(Date).isRequired,
+  expenses: PropTypes.array.isRequired,
+  onExpensesUpdate: PropTypes.func.isRequired,
 };
