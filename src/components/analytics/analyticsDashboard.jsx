@@ -2,7 +2,7 @@ import "./analyticsDashboard.css";
 import { useEffect, useState } from "react";
 import { AreaChart, BarChart, DonutChart, PieChart } from "@mantine/charts";
 import { MonthPickerInput } from '@mantine/dates';
-import { uniqueCategories, seriesMatching , categoryColors, transformExpensesByType } from "../../utils/analytics";
+import { uniqueCategories, seriesMatching , categoryColors, transformExpensesByType, isEMICategory } from "../../utils/analytics";
 
 export default function AnalyticsDashboard() {
  const [expenses, setExpenses] = useState([]);
@@ -30,7 +30,7 @@ export default function AnalyticsDashboard() {
 
   const chartData = expenses.map((expense) => {
     const dataPoint = { date: expense.date };
-    expense.transactions.forEach((transaction) => {
+    expense.transactions.filter(t => !isEMICategory(t.category)).forEach((transaction) => {
       dataPoint[transaction.category] = transaction.amount;
     });
     return dataPoint;
@@ -44,7 +44,7 @@ export default function AnalyticsDashboard() {
   const categoryTotals = {};
 
   expenses.forEach((expense) => {
-    expense.transactions.forEach((transaction) => {
+    expense.transactions.filter(t => !isEMICategory(t.category)).forEach((transaction) => {
       if (!categoryTotals[transaction.category]) {
         categoryTotals[transaction.category] = 0;
       }

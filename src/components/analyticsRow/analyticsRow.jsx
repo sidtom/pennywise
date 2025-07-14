@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { isEMICategory } from "../../utils/analytics";
 
 export default function AnalyticsRow({ selectedMonth, expenses }) {
   const [totalSpend, setTotalSpend] = useState(0);
@@ -8,7 +9,12 @@ export default function AnalyticsRow({ selectedMonth, expenses }) {
   useEffect(() => {
     if (!selectedMonth || !expenses) return;
 
-    const total = expenses.reduce((sum, expense) => sum + expense.totalAmount, 0);
+    const total = expenses.reduce((sum, expense) => {
+      const nonEMIAmount = expense.transactions
+        .filter(t => !isEMICategory(t.category))
+        .reduce((txSum, tx) => txSum + tx.amount, 0);
+      return sum + nonEMIAmount;
+    }, 0);
     const daysWithExpenses = expenses.length;
     const average = daysWithExpenses > 0 ? total / daysWithExpenses : 0;
     
