@@ -26,13 +26,29 @@ export default function AnalyticsRow({ selectedMonth, expenses }) {
 
   return (
     <div style={{ display: "flex", gap: "20px", justifyContent: "center", margin: "20px 0" }}>
-      <div style={{ padding: "15px", border: "1px solid #ccc", borderRadius: "8px" }}>
-        <h3>Total Spend</h3>
-        <p>₹{totalSpend.toFixed(2)}</p>
+      <div style={{ 
+        padding: "20px", 
+        background: "linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)",
+        border: "1px solid rgba(0, 0, 0, 0.08)", 
+        borderRadius: "12px",
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+        textAlign: "center",
+        minWidth: "150px"
+      }}>
+        <h3 style={{ margin: "0 0 10px 0", color: "#667eea", fontSize: "16px" }}>Total Spend</h3>
+        <p style={{ margin: "0", fontSize: "24px", fontWeight: "bold", color: "#2d3748" }}>₹{totalSpend.toFixed(2)}</p>
       </div>
-      <div style={{ padding: "15px", border: "1px solid #ccc", borderRadius: "8px" }}>
-        <h3>Average Spend/Day</h3>
-        <p>₹{averageSpend.toFixed(2)}</p>
+      <div style={{ 
+        padding: "20px", 
+        background: "linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)",
+        border: "1px solid rgba(0, 0, 0, 0.08)", 
+        borderRadius: "12px",
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+        textAlign: "center",
+        minWidth: "150px"
+      }}>
+        <h3 style={{ margin: "0 0 10px 0", color: "#667eea", fontSize: "16px" }}>Average Spend/Day</h3>
+        <p style={{ margin: "0", fontSize: "24px", fontWeight: "bold", color: "#2d3748" }}>₹{averageSpend.toFixed(2)}</p>
       </div>
     </div>
   );

@@ -1,14 +1,21 @@
 .box{
     flex: 1 1 45%;
-    border: 1px solid black;
-    padding: 10px;
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 20px;
     height: 40vh;
-    border-radius: 5px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     cursor: pointer;
     width: 50%;
+    backdrop-filter: blur(10px);
+}
+
+.box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }

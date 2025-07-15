@@ -22,6 +22,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import SettingsIcon from "@mui/icons-material/Settings";
 import "./dashboard.css";
+import "../../styles/theme.css";
 
 const drawerWidth = 240;
 
@@ -29,16 +30,7 @@ function Dashboard() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const isSmallScreen = useMediaQuery("(max-width:50em)");
-  const [marginLeft, setMarginLeft] = useState(0);
   const location = useLocation(); // Use useLocation to get the current path
-
-  useEffect(() => {
-    if (!isSmallScreen && location.pathname === "/calendar") {
-      setMarginLeft("25%");
-    } else {
-      setMarginLeft(0);
-    }
-  }, [location.pathname, isSmallScreen]); // React to changes in location.pathname
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -93,7 +85,11 @@ function Dashboard() {
       {/* Top AppBar */}
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ 
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          background: 'var(--primary-gradient)',
+          boxShadow: 'var(--shadow-medium)'
+        }}
       >
         <Toolbar>
           {isSmallScreen && (
@@ -106,8 +102,8 @@ function Dashboard() {
               <MenuIcon />
             </IconButton>
           )}
-          <Typography variant="h6" noWrap>
-            Pennywise
+          <Typography variant="h6" noWrap sx={{ fontWeight: 'bold', letterSpacing: '0.5px' }}>
+            💰 Pennywise
           </Typography>
         </Toolbar>
       </AppBar>
@@ -126,6 +122,8 @@ function Dashboard() {
           [`& .MuiDrawer-paper`]: {
             width: isSmallScreen ? "auto" : drawerWidth,
             boxSizing: "border-box",
+            background: 'var(--card-gradient)',
+            borderRight: '1px solid var(--border-color)'
           },
         }}
       >
@@ -138,10 +136,10 @@ function Dashboard() {
         component="main"
         sx={{
           flexGrow: 1,
-          bgcolor: "background.default",
+          background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+          minHeight: '100vh',
           p: 3,
-          transition: "margin-left 0.3s ease",
-          marginLeft: marginLeft, // Adjust margin for permanent drawer
+          width: '100%'
         }}
       >
         <Toolbar />

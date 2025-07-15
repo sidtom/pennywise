@@ -60,8 +60,15 @@ export default function AnalyticsDashboard() {
 
   const pieData = transformExpensesByType(expenses);
   return (
-    <div>
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+    <div style={{ padding: "20px" }}>
+      <div style={{ 
+        textAlign: "center", 
+        marginBottom: "30px",
+        background: "rgba(255, 255, 255, 0.9)",
+        padding: "20px",
+        borderRadius: "12px",
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)"
+      }}>
         <MonthPickerInput
           label="Select Month"
           placeholder="Pick month"
@@ -70,7 +77,7 @@ export default function AnalyticsDashboard() {
           style={{ maxWidth: "300px", margin: "0 auto" }}
         />
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
       <div className="box">
         <AreaChart
           h={300}
