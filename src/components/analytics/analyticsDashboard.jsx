@@ -69,13 +69,15 @@ export default function AnalyticsDashboard() {
         borderRadius: "12px",
         boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)"
       }}>
-        <MonthPickerInput
-          label="Select Month"
-          placeholder="Pick month"
-          value={selectedMonth}
-          onChange={setSelectedMonth}
-          style={{ maxWidth: "300px", margin: "0 auto" }}
-        />
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <MonthPickerInput
+            label="Select Month"
+            placeholder="Pick month"
+            value={selectedMonth}
+            onChange={setSelectedMonth}
+            style={{ maxWidth: "300px" }}
+          />
+        </div>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
       <div className="box">

@@ -15,8 +15,8 @@ export default function Day({ date, expenses, onExpensesUpdate }) {
   const totalAmountSpent = getTotalAmountSpent(localExpenses, formattedDate);
 
   const pillboxStyle = {
-    display: "inline-block",
-    padding: "5px 10px",
+    display: "block",
+    padding: "6px 8px",
     borderRadius: "10px",
     border:
       totalAmountSpent === 0
@@ -26,6 +26,12 @@ export default function Day({ date, expenses, onExpensesUpdate }) {
         : "1px solid rgb(8, 248, 28)",
     color: "rgb(3, 3, 0)",
     textAlign: "center",
+    fontSize: "12px",
+    fontWeight: "bold",
+    marginTop: "6px",
+    minHeight: "20px",
+    wordBreak: "break-all",
+    lineHeight: "1.2"
   };
 
   const handleSave = (date, transactions, totalAmount) => {
@@ -52,8 +58,15 @@ export default function Day({ date, expenses, onExpensesUpdate }) {
         onSave={handleSave}
       />
 
-      <div onClick={open}>
-        <div style={{ textAlign: "center" }}>{date.getDate()}</div>
+      <div onClick={open} style={{ 
+        display: "flex", 
+        flexDirection: "column", 
+        alignItems: "center", 
+        minHeight: "70px", 
+        padding: "4px",
+        cursor: "pointer"
+      }}>
+        <div style={{ textAlign: "center", marginBottom: "4px", fontSize: "14px", fontWeight: "500" }}>{date.getDate()}</div>
         <div style={pillboxStyle}>{totalAmountSpent}</div>
       </div>
     </>

@@ -1,61 +1,22 @@
-/* Center the parent container */
-/* .calendar-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-  }
-   */
+.mantine-Calendar-root {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+}
 
-  /* .calendar-container .mantine-Calendar-root {
-    width: 90%;
-    height: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-  }
-   */
-  .mantine-Calendar-levelsGroup > * {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    /* border: 2px solid rgb(235, 201, 9);
-    padding: 10px;
-    border-radius: 20%; */
-  }
+.mantine-Calendar-month {
+  width: 100% !important;
+}
 
-  /* .calendar-container .mantine-Calendar-controls {
-    width: 60px; 
-    height: 60px;
-  }
-   */
+.mantine-Calendar-monthCell {
+  width: calc(100% / 7) !important;
+  min-width: 120px !important;
+}
 
-  /* .calendar-container .mantine-Calendar-yearsListControl,
-  .calendar-container .mantine-Calendar-monthsListControl {
-    height: 150px;
-    width: 150px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-  }
-   */
+.mantine-Calendar-calendarHeader {
+  justify-content: center !important;
+}
 
-  /* .calendar-container .mantine-Calendar-day {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 120px;
-    width: 120px;
-  }  */
-  
-  /* button{
-    height: 120px !important;
-    width: 120px !important;
-  } */
-/* 
-  .mantine-Calendar-calendarHeader > div:nth-child(2) {
-    margin-top: 15%;
-  } */
-
-  .mantine-Calendar-monthCell > * {
-flex-direction: column;
-  }
+.mantine-Calendar-calendarHeaderControl {
+  margin: 0 auto !important;
+}
