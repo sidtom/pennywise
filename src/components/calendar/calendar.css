@@ -6,15 +6,20 @@
 
 .mantine-Calendar-month {
   width: 100% !important;
+  table-layout: fixed !important;
 }
 
-.mantine-Calendar-monthCell {
+.mantine-Calendar-monthThead th,
+.mantine-Calendar-monthTbody td {
   width: calc(100% / 7) !important;
   min-width: 120px !important;
+  text-align: center !important;
 }
 
 .mantine-Calendar-calendarHeader {
+  display: flex !important;
   justify-content: center !important;
+  width: 100% !important;
 }
 
 .mantine-Calendar-calendarHeaderControl {
