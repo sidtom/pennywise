@@ -16,10 +16,15 @@
   text-align: center !important;
 }
 
-.mantine-Calendar-calendarHeader {
+.mantine-Calendar-root > div:first-child {
   display: flex !important;
   justify-content: center !important;
   width: 100% !important;
+}
+
+.m_730a79ed.mantine-Calendar-calendarHeader {
+  margin: 0 auto 20px auto !important;
+  text-align: center !important;
 }
 
 .mantine-Calendar-calendarHeaderControl {
