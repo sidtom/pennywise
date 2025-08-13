@@ -16,6 +16,27 @@
   text-align: center !important;
 }
 
+@media (max-width: 768px) {
+  .mantine-Calendar-root {
+    max-width: 100% !important;
+    padding: 0 10px !important;
+  }
+  
+  .mantine-Calendar-monthThead th,
+  .mantine-Calendar-monthTbody td {
+    min-width: 45px !important;
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mantine-Calendar-monthThead th,
+  .mantine-Calendar-monthTbody td {
+    min-width: 35px !important;
+    font-size: 10px !important;
+  }
+}
+
 .mantine-Calendar-root > div:first-child {
   display: flex !important;
   justify-content: center !important;

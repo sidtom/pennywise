@@ -62,12 +62,22 @@ export default function Day({ date, expenses, onExpensesUpdate }) {
         display: "flex", 
         flexDirection: "column", 
         alignItems: "center", 
-        minHeight: "70px", 
-        padding: "4px",
+        minHeight: window.innerWidth <= 480 ? "50px" : window.innerWidth <= 768 ? "60px" : "70px", 
+        padding: window.innerWidth <= 480 ? "2px" : "4px",
         cursor: "pointer"
       }}>
-        <div style={{ textAlign: "center", marginBottom: "4px", fontSize: "14px", fontWeight: "500" }}>{date.getDate()}</div>
-        <div style={pillboxStyle}>{totalAmountSpent}</div>
+        <div style={{ 
+          textAlign: "center", 
+          marginBottom: "4px", 
+          fontSize: window.innerWidth <= 480 ? "10px" : window.innerWidth <= 768 ? "12px" : "14px", 
+          fontWeight: "500" 
+        }}>{date.getDate()}</div>
+        <div style={{
+          ...pillboxStyle,
+          fontSize: window.innerWidth <= 480 ? "8px" : window.innerWidth <= 768 ? "10px" : "12px",
+          padding: window.innerWidth <= 480 ? "2px 4px" : window.innerWidth <= 768 ? "4px 6px" : "6px 8px",
+          minHeight: window.innerWidth <= 480 ? "14px" : window.innerWidth <= 768 ? "16px" : "20px"
+        }}>{totalAmountSpent}</div>
       </div>
     </>
   );
