@@ -59,6 +59,45 @@ export default function AnalyticsDashboard() {
   }));
 
   const pieData = transformExpensesByType(expenses);
+
+  // Weekday spending analysis
+  const weekdayData = expenses.reduce((acc, expense) => {
+    const date = new Date(expense.date);
+    if (!isNaN(date.getTime())) {
+      const dayName = date.toLocaleDateString('en', { weekday: 'short' });
+      if (!acc[dayName]) acc[dayName] = 0;
+      acc[dayName] += expense.totalAmount;
+    }
+    return acc;
+  }, {});
+  
+  const dayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const weekdayChartData = dayOrder
+    .filter(day => weekdayData[day])
+    .map(day => ({
+      day,
+      amount: weekdayData[day]
+    }));
+
+  // Top 5 spending categories
+  const topCategories = Object.entries(categoryTotals)
+    .sort(([,a], [,b]) => b - a)
+    .slice(0, 5)
+    .map(([category, amount]) => ({
+      category,
+      amount,
+      color: categoryColors[category] || "gray.6"
+    }));
+
+  // Daily average vs actual spending
+  const totalSpent = expenses.reduce((sum, exp) => sum + exp.totalAmount, 0);
+  const dailyAverage = expenses.length > 0 ? totalSpent / expenses.length : 0;
+  const avgVsActualData = expenses.map(expense => ({
+    date: expense.date,
+    "Daily Average": dailyAverage,
+    "Actual Spending": expense.totalAmount
+  }));
+
   return (
     <div className="analytics-dashboard-container">
       <div className="analytics-month-picker-section">
@@ -104,6 +143,36 @@ export default function AnalyticsDashboard() {
           withTooltip 
           labelsType="value"
           withLabels
+        />
+      </div>
+      <div className="box">
+        <BarChart
+          h={250}
+          data={weekdayChartData}
+          dataKey="day"
+          series={[{ name: "amount", color: "teal.6" }]}
+          tickLine="y"
+        />
+      </div>
+      <div className="box">
+        <BarChart
+          h={250}
+          data={topCategories}
+          dataKey="category"
+          series={[{ name: "amount", color: "orange.6" }]}
+          tickLine="y"
+        />
+      </div>
+      <div className="box">
+        <AreaChart
+          h={250}
+          data={avgVsActualData}
+          dataKey="date"
+          series={[
+            { name: "Daily Average", color: "red.6" },
+            { name: "Actual Spending", color: "blue.6" }
+          ]}
+          curveType="linear"
         />
       </div>
     </div>
