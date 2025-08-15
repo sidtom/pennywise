@@ -1,4 +1,61 @@
-/* .MuiBox-root{
-    padding: 0px !important; 
-     margin-left: 9px !important;
-} */
+.dashboard-container {
+  display: flex;
+}
+
+.dashboard-appbar {
+  z-index: 1201;
+  background: var(--primary-gradient);
+  box-shadow: var(--shadow-medium);
+}
+
+.dashboard-title {
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-drawer {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.dashboard-drawer-paper {
+  width: 240px;
+  box-sizing: border-box;
+  background: var(--card-gradient);
+  border-right: 1px solid var(--border-color);
+}
+
+.dashboard-drawer-mobile {
+  width: auto;
+}
+
+.dashboard-main {
+  flex-grow: 1;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  padding: 24px;
+  width: 100%;
+}
+
+.drawer-list {
+  overflow: auto;
+  padding-top: 16px;
+}
+
+.drawer-item {
+  margin: 0 8px;
+  border-radius: 8px;
+}
+
+.drawer-item:hover {
+  background-color: rgba(102, 126, 234, 0.1);
+  transition: all 0.2s ease;
+}
+
+.drawer-icon {
+  color: #667eea;
+}
+
+.drawer-text {
+  font-weight: 500;
+}

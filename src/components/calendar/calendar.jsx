@@ -30,18 +30,7 @@ export default function DashboardCalendar({ selectedMonth, onMonthChange }) {
   };
 
   return (
-    <div className="calendar-container" style={{ 
-      display: "flex", 
-      flexDirection: "column", 
-      alignItems: "center", 
-      gap: window.innerWidth <= 768 ? "15px" : "20px", 
-      padding: window.innerWidth <= 768 ? "15px" : "20px",
-      margin: window.innerWidth <= 768 ? "10px" : "0",
-      background: "rgba(255, 255, 255, 0.9)",
-      borderRadius: "16px",
-      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-      backdropFilter: "blur(10px)"
-    }}>
+    <div className="calendar-container">
       <Calendar
         renderDay={(date) => <Day date={date} expenses={expenses} onExpensesUpdate={handleExpensesUpdate} />}
         size="xl"

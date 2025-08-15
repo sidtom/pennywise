@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DashboardCalendar from "../calendar/calendar";
 import AnalyticsDashboard from "../analytics/analyticsDashboard";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom"; // Import useLocation
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; // Import useLocation
 import {
   AppBar,
   Toolbar,
@@ -24,31 +24,29 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import "./dashboard.css";
 import "../../styles/theme.css";
 
-const drawerWidth = 240;
-
 function Dashboard() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const isSmallScreen = useMediaQuery("(max-width:50em)");
-  const location = useLocation(); // Use useLocation to get the current path
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const drawer = (
-    <Box sx={{ overflow: "auto" }}>
+    <Box className="drawer-list">
       <List>
         <ListItem disablePadding>
           <ListItemButton
             component={Link}
             to="/calendar"
             onClick={handleDrawerToggle}
+            className="drawer-item"
           >
-            <ListItemIcon>
+            <ListItemIcon className="drawer-icon">
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+            <ListItemText primary="Dashboard" className="drawer-text" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -56,11 +54,12 @@ function Dashboard() {
             component={Link}
             to="/analytics"
             onClick={handleDrawerToggle}
+            className="drawer-item"
           >
-            <ListItemIcon>
+            <ListItemIcon className="drawer-icon">
               <AnalyticsIcon />
             </ListItemIcon>
-            <ListItemText primary="Analytics" />
+            <ListItemText primary="Analytics" className="drawer-text" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -68,11 +67,12 @@ function Dashboard() {
             component={Link}
             to="/settings"
             onClick={handleDrawerToggle}
+            className="drawer-item"
           >
-            <ListItemIcon>
+            <ListItemIcon className="drawer-icon">
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary="Settings" />
+            <ListItemText primary="Settings" className="drawer-text" />
           </ListItemButton>
         </ListItem>
       </List>
@@ -80,12 +80,12 @@ function Dashboard() {
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box className="dashboard-container">
       <CssBaseline />
       {/* Top AppBar */}
       <AppBar
         position="fixed"
-        sx={{ 
+        sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
           background: 'var(--primary-gradient)',
           boxShadow: 'var(--shadow-medium)'
@@ -117,10 +117,10 @@ function Dashboard() {
           keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
-          width: isSmallScreen ? "auto" : drawerWidth,
+          width: isSmallScreen ? "auto" : 240,
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: {
-            width: isSmallScreen ? "auto" : drawerWidth,
+            width: isSmallScreen ? "auto" : 240,
             boxSizing: "border-box",
             background: 'var(--card-gradient)',
             borderRight: '1px solid var(--border-color)'
@@ -139,7 +139,8 @@ function Dashboard() {
           background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
           minHeight: '100vh',
           p: 3,
-          width: '100%'
+          width: '100%',
+          overflow: 'hidden'
         }}
       >
         <Toolbar />

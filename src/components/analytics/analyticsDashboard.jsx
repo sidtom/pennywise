@@ -60,16 +60,9 @@ export default function AnalyticsDashboard() {
 
   const pieData = transformExpensesByType(expenses);
   return (
-    <div style={{ padding: "20px" }}>
-      <div style={{ 
-        textAlign: "center", 
-        marginBottom: "30px",
-        background: "rgba(255, 255, 255, 0.9)",
-        padding: "20px",
-        borderRadius: "12px",
-        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)"
-      }}>
-        <div style={{ display: "flex", justifyContent: "center" }}>
+    <div className="analytics-dashboard-container">
+      <div className="analytics-month-picker-section">
+        <div className="analytics-month-picker-wrapper">
           <MonthPickerInput
             label="Select Month"
             placeholder="Pick month"
@@ -79,10 +72,10 @@ export default function AnalyticsDashboard() {
           />
         </div>
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+      <div className="analytics-charts-grid">
       <div className="box">
         <AreaChart
-          h={300}
+          h={250}
           data={chartData}
           dataKey="date"
           series={series}
@@ -91,13 +84,13 @@ export default function AnalyticsDashboard() {
       </div>
       <div className="box">
         <DonutChart
-          style={{ marginLeft: "35%", marginTop: "10%" }}
+          className="analytics-donut-chart"
           data={donutData}
         />
       </div>
       <div className="box">
         <BarChart
-          h={300}
+          h={250}
           data={barData}
           dataKey="day"
           series={[{ name: "Total Spending", color: "violet.6" }]}
@@ -106,7 +99,7 @@ export default function AnalyticsDashboard() {
       </div>
       <div className="box">
         <PieChart
-          style={{ marginLeft: "35%", marginTop: "10%" }}
+          className="analytics-pie-chart"
           data={pieData}
           withTooltip 
           labelsType="value"

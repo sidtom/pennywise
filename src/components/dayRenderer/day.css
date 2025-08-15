@@ -1,0 +1,74 @@
+.day-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 70px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.day-number {
+  text-align: center;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pill-box {
+  display: block;
+  padding: 6px 8px;
+  border-radius: 10px;
+  color: rgb(3, 3, 0);
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 6px;
+  min-height: 20px;
+  word-break: break-all;
+  line-height: 1.2;
+}
+
+.pill-box-zero {
+  border: 1px solid grey;
+}
+
+.pill-box-high {
+  border: 1px solid rgb(250, 6, 6);
+}
+
+.pill-box-low {
+  border: 1px solid rgb(8, 248, 28);
+}
+
+@media (max-width: 768px) {
+  .day-container {
+    min-height: 60px;
+  }
+  
+  .day-number {
+    font-size: 12px;
+  }
+  
+  .pill-box {
+    font-size: 10px;
+    padding: 4px 6px;
+    min-height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-container {
+    min-height: 50px;
+    padding: 2px;
+  }
+  
+  .day-number {
+    font-size: 10px;
+  }
+  
+  .pill-box {
+    font-size: 8px;
+    padding: 2px 4px;
+    min-height: 14px;
+  }
+}
