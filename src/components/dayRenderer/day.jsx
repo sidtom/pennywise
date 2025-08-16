@@ -21,6 +21,11 @@ export default function Day({ date, expenses, onExpensesUpdate }) {
     return "pill-box pill-box-low";
   };
 
+  const isToday = () => {
+    const today = new Date();
+    return date.toDateString() === today.toDateString();
+  };
+
   const handleSave = (date, transactions, totalAmount) => {
     const updatedExpenses = [...localExpenses];
     const existingIndex = updatedExpenses.findIndex((e) => e.date === date);
@@ -45,7 +50,7 @@ export default function Day({ date, expenses, onExpensesUpdate }) {
         onSave={handleSave}
       />
 
-      <div onClick={open} className="day-container">
+      <div onClick={open} className={`day-container ${isToday() ? 'day-today' : ''}`}>
         <div className="day-number">{date.getDate()}</div>
         <div className={getPillboxClass()}>{totalAmountSpent}</div>
       </div>
