@@ -4,6 +4,7 @@
   align-items: center;
   min-height: 70px;
   padding: 4px;
+  margin: 2px;
   cursor: pointer;
 }
 
@@ -67,6 +68,16 @@
   font-weight: bold;
 }
 
+.mantine-Calendar-monthCell button {
+  margin: 10px !important;
+}
+
+@media (max-width: 768px) {
+  .mantine-Calendar-monthCell button {
+    margin: 2px !important;
+  }
+}
+
 @media (max-width: 480px) {
   .day-container {
     min-height: 50px;
@@ -81,5 +92,9 @@
     font-size: 8px;
     padding: 2px 4px;
     min-height: 14px;
+  }
+  
+  .mantine-Calendar-monthCell button {
+    margin: 1px !important;
   }
 }
