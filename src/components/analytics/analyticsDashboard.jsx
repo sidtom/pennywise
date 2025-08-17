@@ -114,7 +114,7 @@ export default function AnalyticsDashboard() {
       <div className="analytics-charts-grid">
       <div className="box">
         <AreaChart
-          h={250}
+          h={window.innerWidth <= 768 ? 200 : 250}
           data={chartData}
           dataKey="date"
           series={series}
@@ -129,7 +129,7 @@ export default function AnalyticsDashboard() {
       </div>
       <div className="box">
         <BarChart
-          h={250}
+          h={window.innerWidth <= 768 ? 200 : 250}
           data={barData}
           dataKey="day"
           series={[{ name: "Total Spending", color: "violet.6" }]}
@@ -147,7 +147,7 @@ export default function AnalyticsDashboard() {
       </div>
       <div className="box">
         <BarChart
-          h={250}
+          h={window.innerWidth <= 768 ? 200 : 250}
           data={weekdayChartData}
           dataKey="day"
           series={[{ name: "amount", color: "teal.6" }]}
@@ -156,7 +156,7 @@ export default function AnalyticsDashboard() {
       </div>
       <div className="box">
         <BarChart
-          h={250}
+          h={window.innerWidth <= 768 ? 200 : 250}
           data={topCategories}
           dataKey="category"
           series={[{ name: "amount", color: "orange.6" }]}
@@ -165,7 +165,7 @@ export default function AnalyticsDashboard() {
       </div>
       <div className="box">
         <AreaChart
-          h={250}
+          h={window.innerWidth <= 768 ? 200 : 250}
           data={avgVsActualData}
           dataKey="date"
           series={[

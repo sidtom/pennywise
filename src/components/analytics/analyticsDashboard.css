@@ -53,3 +53,39 @@
     margin-left: 35%;
     margin-top: 10%;
 }
+
+@media (max-width: 768px) {
+  .analytics-charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .box {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    padding: 20px 20px 30px 20px;
+  }
+  
+  .analytics-donut-chart,
+  .analytics-pie-chart {
+    margin-left: 0;
+    margin-top: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .analytics-dashboard-container {
+    padding: 10px;
+  }
+  
+  .analytics-charts-grid {
+    gap: 10px;
+  }
+  
+  .box {
+    padding: 15px 10px 30px 10px;
+    height: auto;
+    overflow: hidden;
+  }
+}
