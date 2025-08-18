@@ -11,10 +11,15 @@ export default function AnalyticsRow({ selectedMonth, expenses }) {
     if (!selectedMonth || !expenses) return;
 
     const total = expenses.reduce((sum, expense) => {
-      const nonEMIAmount = expense.transactions
+      const netAmount = expense.transactions
         .filter(t => !isEMICategory(t.category))
-        .reduce((txSum, tx) => txSum + tx.amount, 0);
-      return sum + nonEMIAmount;
+        .reduce((txSum, tx) => {
+          const amount = tx.amount || 0;
+          return tx.transactionNature === 'Income' 
+            ? txSum - amount 
+            : txSum + amount;
+        }, 0);
+      return sum + netAmount;
     }, 0);
     const daysWithExpenses = expenses.length;
     const average = daysWithExpenses > 0 ? total / daysWithExpenses : 0;

@@ -31,20 +31,27 @@ export default function AnalyticsDashboard() {
   const chartData = expenses.map((expense) => {
     const dataPoint = { date: expense.date };
     expense.transactions.filter(t => !isEMICategory(t.category)).forEach((transaction) => {
-      dataPoint[transaction.category] = transaction.amount;
+      const amount = transaction.transactionNature === 'Income' ? -transaction.amount : transaction.amount;
+      dataPoint[transaction.category] = (dataPoint[transaction.category] || 0) + amount;
     });
     return dataPoint;
   });
 
-  const barData = expenses.map((expense) => ({
-    day: expense.date, // Keeping the date as 'month' for consistency with the given format
-    "Total Spending": expense.totalAmount,
-  }));
+  const barData = expenses.map((expense) => {
+    const netSpending = expense.transactions.reduce((total, tx) => {
+      const amount = tx.amount || 0;
+      return tx.transactionNature === 'Income' ? total - amount : total + amount;
+    }, 0);
+    return {
+      day: expense.date,
+      "Net Spending": netSpending,
+    };
+  });
 
   const categoryTotals = {};
 
   expenses.forEach((expense) => {
-    expense.transactions.filter(t => !isEMICategory(t.category)).forEach((transaction) => {
+    expense.transactions.filter(t => !isEMICategory(t.category) && t.transactionNature !== 'Income').forEach((transaction) => {
       if (!categoryTotals[transaction.category]) {
         categoryTotals[transaction.category] = 0;
       }
@@ -66,7 +73,11 @@ export default function AnalyticsDashboard() {
     if (!isNaN(date.getTime())) {
       const dayName = date.toLocaleDateString('en', { weekday: 'short' });
       if (!acc[dayName]) acc[dayName] = 0;
-      acc[dayName] += expense.totalAmount;
+      const netAmount = expense.transactions.reduce((total, tx) => {
+        const amount = tx.amount || 0;
+        return tx.transactionNature === 'Income' ? total - amount : total + amount;
+      }, 0);
+      acc[dayName] += netAmount;
     }
     return acc;
   }, {});
@@ -90,12 +101,21 @@ export default function AnalyticsDashboard() {
     }));
 
   // Daily average vs actual spending
-  const totalSpent = expenses.reduce((sum, exp) => sum + exp.totalAmount, 0);
+  const totalSpent = expenses.reduce((sum, exp) => {
+    const netAmount = exp.transactions.reduce((total, tx) => {
+      const amount = tx.amount || 0;
+      return tx.transactionNature === 'Income' ? total - amount : total + amount;
+    }, 0);
+    return sum + netAmount;
+  }, 0);
   const dailyAverage = expenses.length > 0 ? totalSpent / expenses.length : 0;
   const avgVsActualData = expenses.map(expense => ({
     date: expense.date,
     "Daily Average": dailyAverage,
-    "Actual Spending": expense.totalAmount
+    "Actual Spending": expense.transactions.reduce((total, tx) => {
+      const amount = tx.amount || 0;
+      return tx.transactionNature === 'Income' ? total - amount : total + amount;
+    }, 0)
   }));
 
   return (
@@ -132,7 +152,7 @@ export default function AnalyticsDashboard() {
           h={window.innerWidth <= 768 ? 200 : 250}
           data={barData}
           dataKey="day"
-          series={[{ name: "Total Spending", color: "violet.6" }]}
+          series={[{ name: "Net Spending", color: "violet.6" }]}
           tickLine="y"
         />
       </div>

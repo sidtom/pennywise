@@ -23,6 +23,7 @@ export default function ExpenseModal({
     category: "",
     amount: "",
     transactionType: "Gpay",
+    transactionNature: "Expense",
   });
   const isMobile = useMediaQuery("(max-width: 50em)");
   // Initialize the current expenses for the selected date
@@ -50,7 +51,7 @@ export default function ExpenseModal({
 
   const handleAddRow = () => {
     setCurrentExpenses([...currentExpenses, { ...newExpense }]);
-    setNewExpense({ category: "", amount: "", transactionType: "Gpay" });
+    setNewExpense({ category: "", amount: "", transactionType: "Gpay", transactionNature: "Expense" });
   };
 
   const handleSave = async () => {
@@ -119,7 +120,7 @@ export default function ExpenseModal({
       size={isMobile ? "xs" : "xl"}
       opened={opened}
       onClose={onClose}
-      title={`Expenses for ${date}`}
+      title={`Transactions for ${date}`}
       className="modal-container"
       centered
       fullScreen={isMobile}
@@ -129,6 +130,7 @@ export default function ExpenseModal({
           <tr>
             <th className="header-cell">Category</th>
             <th className="header-cell">Amount</th>
+            <th className="header-cell">Nature</th>
             <th className="header-cell">Transaction Type</th>
             <th className="header-cell">Actions</th>
           </tr>
@@ -163,6 +165,23 @@ export default function ExpenseModal({
                     )
                   }
                 />
+              </td>
+              <td className="table-cell">
+                <Radio.Group
+                  value={expense.transactionNature || "Expense"}
+                  onChange={(value) =>
+                    setCurrentExpenses((prev) =>
+                      prev.map((item, i) =>
+                        i === index ? { ...item, transactionNature: value } : item
+                      )
+                    )
+                  }
+                >
+                  <Group>
+                    <Radio value="Expense" label="Expense" />
+                    <Radio value="Income" label="Income" />
+                  </Group>
+                </Radio.Group>
               </td>
               <td className="table-cell">
                 <TextInput
@@ -213,6 +232,22 @@ export default function ExpenseModal({
                   setNewExpense((prev) => ({ ...prev, amount: value }))
                 }
               />
+            </td>
+            <td className="table-cell">
+              <Radio.Group
+                value={newExpense.transactionNature}
+                onChange={(value) =>
+                  setNewExpense((prev) => ({
+                    ...prev,
+                    transactionNature: value,
+                  }))
+                }
+              >
+                <Group>
+                  <Radio value="Expense" label="Expense" />
+                  <Radio value="Income" label="Income" />
+                </Group>
+              </Radio.Group>
             </td>
             <td className="table-cell">
               <Radio.Group

@@ -14,7 +14,13 @@ export function formatDate(dateString) {
 export function getTotalAmountSpent(expenses, formattedDate) {
   // Find the entry for the given date in the JSON data
   const dateEntry = expenses.find(entry => entry.date === formattedDate);
-
-  // If an entry is found, return the total amount; otherwise, return 0
-  return dateEntry ? dateEntry.totalAmount : 0;
+  
+  if (!dateEntry) return 0;
+  
+  return dateEntry.transactions.reduce((total, transaction) => {
+    const amount = transaction.amount || 0;
+    return transaction.transactionNature === 'Income' 
+      ? total - amount 
+      : total + amount;
+  }, 0);
 }
