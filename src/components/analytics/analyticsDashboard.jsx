@@ -1,24 +1,30 @@
 import "./analyticsDashboard.css";
 import { useEffect, useState } from "react";
 import { AreaChart, BarChart, DonutChart, PieChart } from "@mantine/charts";
-import { MonthPickerInput } from '@mantine/dates';
-import { uniqueCategories, seriesMatching , categoryColors, transformExpensesByType, isEMICategory } from "../../utils/analytics";
+import { MonthPickerInput } from "@mantine/dates";
+import {
+  uniqueCategories,
+  seriesMatching,
+  categoryColors,
+  transformExpensesByType,
+  isEMICategory,
+} from "../../utils/analytics";
 
 export default function AnalyticsDashboard() {
- const [expenses, setExpenses] = useState([]);
- const [selectedMonth, setSelectedMonth] = useState(null);
-  
+  const [expenses, setExpenses] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(null);
+
   useEffect(() => {
-    let url = 'http://localhost:5000/expenses';
+    let url = "http://localhost:5000/expenses";
     if (selectedMonth) {
       const month = selectedMonth.getMonth() + 1;
       const year = selectedMonth.getFullYear();
       url += `?month=${month}&year=${year}`;
     }
-    
+
     fetch(url)
-      .then(response => response.json())
-      .then(payload => {
+      .then((response) => response.json())
+      .then((payload) => {
         const data = Array.isArray(payload?.data)
           ? payload.data
           : Array.isArray(payload)
@@ -26,26 +32,34 @@ export default function AnalyticsDashboard() {
             : [];
         setExpenses(data);
       })
-      .catch(error => {
-        console.error('Error fetching expenses:', error);
+      .catch((error) => {
+        console.error("Error fetching expenses:", error);
       });
-  }, [selectedMonth])
+  }, [selectedMonth]);
   const categories = uniqueCategories(expenses);
   const series = seriesMatching(categories);
 
   const chartData = expenses.map((expense) => {
     const dataPoint = { date: expense.date };
-    expense.transactions.filter(t => !isEMICategory(t.category)).forEach((transaction) => {
-      const amount = transaction.transactionNature === 'Income' ? -transaction.amount : transaction.amount;
-      dataPoint[transaction.category] = (dataPoint[transaction.category] || 0) + amount;
-    });
+    expense.transactions
+      .filter((t) => !isEMICategory(t.category))
+      .forEach((transaction) => {
+        const amount =
+          transaction.transactionNature === "Income"
+            ? -transaction.amount
+            : transaction.amount;
+        dataPoint[transaction.category] =
+          (dataPoint[transaction.category] || 0) + amount;
+      });
     return dataPoint;
   });
 
   const barData = expenses.map((expense) => {
     const netSpending = expense.transactions.reduce((total, tx) => {
       const amount = tx.amount || 0;
-      return tx.transactionNature === 'Income' ? total - amount : total + amount;
+      return tx.transactionNature === "Income"
+        ? total - amount
+        : total + amount;
     }, 0);
     return {
       day: expense.date,
@@ -56,12 +70,16 @@ export default function AnalyticsDashboard() {
   const categoryTotals = {};
 
   expenses.forEach((expense) => {
-    expense.transactions.filter(t => !isEMICategory(t.category) && t.transactionNature !== 'Income').forEach((transaction) => {
-      if (!categoryTotals[transaction.category]) {
-        categoryTotals[transaction.category] = 0;
-      }
-      categoryTotals[transaction.category] += transaction.amount;
-    });
+    expense.transactions
+      .filter(
+        (t) => !isEMICategory(t.category) && t.transactionNature !== "Income",
+      )
+      .forEach((transaction) => {
+        if (!categoryTotals[transaction.category]) {
+          categoryTotals[transaction.category] = 0;
+        }
+        categoryTotals[transaction.category] += transaction.amount;
+      });
   });
 
   const donutData = Object.keys(categoryTotals).map((category) => ({
@@ -76,51 +94,57 @@ export default function AnalyticsDashboard() {
   const weekdayData = expenses.reduce((acc, expense) => {
     const date = new Date(expense.date);
     if (!isNaN(date.getTime())) {
-      const dayName = date.toLocaleDateString('en', { weekday: 'short' });
+      const dayName = date.toLocaleDateString("en", { weekday: "short" });
       if (!acc[dayName]) acc[dayName] = 0;
       const netAmount = expense.transactions.reduce((total, tx) => {
         const amount = tx.amount || 0;
-        return tx.transactionNature === 'Income' ? total - amount : total + amount;
+        return tx.transactionNature === "Income"
+          ? total - amount
+          : total + amount;
       }, 0);
       acc[dayName] += netAmount;
     }
     return acc;
   }, {});
-  
-  const dayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  const dayOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const weekdayChartData = dayOrder
-    .filter(day => weekdayData[day])
-    .map(day => ({
+    .filter((day) => weekdayData[day])
+    .map((day) => ({
       day,
-      amount: weekdayData[day]
+      amount: weekdayData[day],
     }));
 
   // Top 5 spending categories
   const topCategories = Object.entries(categoryTotals)
-    .sort(([,a], [,b]) => b - a)
+    .sort(([, a], [, b]) => b - a)
     .slice(0, 5)
     .map(([category, amount]) => ({
       category,
       amount,
-      color: categoryColors[category] || "gray.6"
+      color: categoryColors[category] || "gray.6",
     }));
 
   // Daily average vs actual spending
   const totalSpent = expenses.reduce((sum, exp) => {
     const netAmount = exp.transactions.reduce((total, tx) => {
       const amount = tx.amount || 0;
-      return tx.transactionNature === 'Income' ? total - amount : total + amount;
+      return tx.transactionNature === "Income"
+        ? total - amount
+        : total + amount;
     }, 0);
     return sum + netAmount;
   }, 0);
   const dailyAverage = expenses.length > 0 ? totalSpent / expenses.length : 0;
-  const avgVsActualData = expenses.map(expense => ({
+  const avgVsActualData = expenses.map((expense) => ({
     date: expense.date,
     "Daily Average": dailyAverage,
     "Actual Spending": expense.transactions.reduce((total, tx) => {
       const amount = tx.amount || 0;
-      return tx.transactionNature === 'Income' ? total - amount : total + amount;
-    }, 0)
+      return tx.transactionNature === "Income"
+        ? total - amount
+        : total + amount;
+    }, 0),
   }));
 
   return (
@@ -137,70 +161,67 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
       <div className="analytics-charts-grid">
-      <div className="box">
-        <AreaChart
-          h={window.innerWidth <= 768 ? 200 : 250}
-          data={chartData}
-          dataKey="date"
-          series={series}
-          curveType="linear"
-        />
+        <div className="box">
+          <AreaChart
+            h={window.innerWidth <= 768 ? 200 : 250}
+            data={chartData}
+            dataKey="date"
+            series={series}
+            curveType="linear"
+          />
+        </div>
+        <div className="box">
+          <DonutChart className="analytics-donut-chart" data={donutData} />
+        </div>
+        <div className="box">
+          <BarChart
+            h={window.innerWidth <= 768 ? 200 : 250}
+            data={barData}
+            dataKey="day"
+            series={[{ name: "Net Spending", color: "violet.6" }]}
+            tickLine="y"
+          />
+        </div>
+        <div className="box">
+          <PieChart
+            className="analytics-pie-chart"
+            data={pieData}
+            withTooltip
+            labelsType="value"
+            withLabels
+          />
+        </div>
+        <div className="box">
+          <BarChart
+            h={window.innerWidth <= 768 ? 200 : 250}
+            data={weekdayChartData}
+            dataKey="day"
+            series={[{ name: "amount", color: "teal.6" }]}
+            tickLine="y"
+          />
+        </div>
+        <div className="box">
+          <BarChart
+            h={window.innerWidth <= 768 ? 200 : 250}
+            data={topCategories}
+            dataKey="category"
+            series={[{ name: "amount", color: "orange.6" }]}
+            tickLine="y"
+          />
+        </div>
+        <div className="box">
+          <AreaChart
+            h={window.innerWidth <= 768 ? 200 : 250}
+            data={avgVsActualData}
+            dataKey="date"
+            series={[
+              { name: "Daily Average", color: "red.6" },
+              { name: "Actual Spending", color: "blue.6" },
+            ]}
+            curveType="linear"
+          />
+        </div>
       </div>
-      <div className="box">
-        <DonutChart
-          className="analytics-donut-chart"
-          data={donutData}
-        />
-      </div>
-      <div className="box">
-        <BarChart
-          h={window.innerWidth <= 768 ? 200 : 250}
-          data={barData}
-          dataKey="day"
-          series={[{ name: "Net Spending", color: "violet.6" }]}
-          tickLine="y"
-        />
-      </div>
-      <div className="box">
-        <PieChart
-          className="analytics-pie-chart"
-          data={pieData}
-          withTooltip 
-          labelsType="value"
-          withLabels
-        />
-      </div>
-      <div className="box">
-        <BarChart
-          h={window.innerWidth <= 768 ? 200 : 250}
-          data={weekdayChartData}
-          dataKey="day"
-          series={[{ name: "amount", color: "teal.6" }]}
-          tickLine="y"
-        />
-      </div>
-      <div className="box">
-        <BarChart
-          h={window.innerWidth <= 768 ? 200 : 250}
-          data={topCategories}
-          dataKey="category"
-          series={[{ name: "amount", color: "orange.6" }]}
-          tickLine="y"
-        />
-      </div>
-      <div className="box">
-        <AreaChart
-          h={window.innerWidth <= 768 ? 200 : 250}
-          data={avgVsActualData}
-          dataKey="date"
-          series={[
-            { name: "Daily Average", color: "red.6" },
-            { name: "Actual Spending", color: "blue.6" }
-          ]}
-          curveType="linear"
-        />
-      </div>
-    </div>
     </div>
   );
 }
