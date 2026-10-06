@@ -18,7 +18,12 @@ export default function AnalyticsDashboard() {
     
     fetch(url)
       .then(response => response.json())
-      .then(data => {
+      .then(payload => {
+        const data = Array.isArray(payload?.data)
+          ? payload.data
+          : Array.isArray(payload)
+            ? payload
+            : [];
         setExpenses(data);
       })
       .catch(error => {

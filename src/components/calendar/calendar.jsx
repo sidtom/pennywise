@@ -17,7 +17,12 @@ export default function DashboardCalendar({ selectedMonth, onMonthChange }) {
 
     fetch(`http://localhost:5000/expenses?month=${month}&year=${year}`)
       .then((response) => response.json())
-      .then((data) => {
+      .then((payload) => {
+        const data = Array.isArray(payload?.data)
+          ? payload.data
+          : Array.isArray(payload)
+            ? payload
+            : [];
         setExpenses(data);
       })
       .catch((error) => {
