@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import "./ExpenseModal.css";
+import "./expenseModal.css";
 import { useMediaQuery } from "@mantine/hooks";
 export default function ExpenseModal({
   opened,
@@ -51,13 +51,18 @@ export default function ExpenseModal({
 
   const handleAddRow = () => {
     setCurrentExpenses([...currentExpenses, { ...newExpense }]);
-    setNewExpense({ category: "", amount: "", transactionType: "Gpay", transactionNature: "Expense" });
+    setNewExpense({
+      category: "",
+      amount: "",
+      transactionType: "Gpay",
+      transactionNature: "Expense",
+    });
   };
 
   const handleSave = async () => {
     const totalAmount = currentExpenses.reduce(
       (sum, tx) => sum + Number(tx.amount),
-      0
+      0,
     );
 
     // Separate transactions: those with _id (existing) vs new (no _id)
@@ -75,7 +80,7 @@ export default function ExpenseModal({
               "Content-Type": "application/json",
             },
             body: JSON.stringify(tx),
-          }
+          },
         );
 
         if (!response.ok) {
@@ -147,8 +152,8 @@ export default function ExpenseModal({
                       prev.map((item, i) =>
                         i === index
                           ? { ...item, category: e.target.value }
-                          : item
-                      )
+                          : item,
+                      ),
                     )
                   }
                 />
@@ -160,8 +165,8 @@ export default function ExpenseModal({
                   onChange={(value) =>
                     setCurrentExpenses((prev) =>
                       prev.map((item, i) =>
-                        i === index ? { ...item, amount: value } : item
-                      )
+                        i === index ? { ...item, amount: value } : item,
+                      ),
                     )
                   }
                 />
@@ -172,8 +177,10 @@ export default function ExpenseModal({
                   onChange={(value) =>
                     setCurrentExpenses((prev) =>
                       prev.map((item, i) =>
-                        i === index ? { ...item, transactionNature: value } : item
-                      )
+                        i === index
+                          ? { ...item, transactionNature: value }
+                          : item,
+                      ),
                     )
                   }
                 >
@@ -192,8 +199,8 @@ export default function ExpenseModal({
                       prev.map((item, i) =>
                         i === index
                           ? { ...item, transactionType: e.target.value }
-                          : item
-                      )
+                          : item,
+                      ),
                     )
                   }
                 />
@@ -291,9 +298,9 @@ ExpenseModal.propTypes = {
           category: PropTypes.string.isRequired,
           amount: PropTypes.number.isRequired,
           transactionType: PropTypes.string.isRequired,
-        })
+        }),
       ).isRequired,
-    })
+    }),
   ).isRequired,
   onSave: PropTypes.func.isRequired,
 };

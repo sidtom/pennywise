@@ -1,6 +1,6 @@
 import { Calendar } from "@mantine/dates";
 import { useState, useEffect } from "react";
-import Day from "../dayRenderer/day.JSX";
+import Day from "../dayRenderer/day.jsx";
 import AnalyticsRow from "../analyticsRow/analyticsRow";
 import "@mantine/dates/styles.css";
 import "./calendar.css";
@@ -11,10 +11,10 @@ export default function DashboardCalendar({ selectedMonth, onMonthChange }) {
 
   useEffect(() => {
     if (!selectedMonth) return;
-    
+
     const month = selectedMonth.getMonth() + 1;
     const year = selectedMonth.getFullYear();
-    
+
     fetch(`http://localhost:5000/expenses?month=${month}&year=${year}`)
       .then((response) => response.json())
       .then((data) => {
@@ -32,7 +32,13 @@ export default function DashboardCalendar({ selectedMonth, onMonthChange }) {
   return (
     <div className="calendar-container">
       <Calendar
-        renderDay={(date) => <Day date={date} expenses={expenses} onExpensesUpdate={handleExpensesUpdate} />}
+        renderDay={(date) => (
+          <Day
+            date={date}
+            expenses={expenses}
+            onExpensesUpdate={handleExpensesUpdate}
+          />
+        )}
         size="xl"
         date={selectedMonth}
         onDateChange={onMonthChange}
